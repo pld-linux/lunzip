@@ -1,12 +1,12 @@
 Summary:	lzip file decompressor
 Summary(pl.UTF-8):	Dekompresor plików w formacie lzip
 Name:		lunzip
-Version:	1.14
+Version:	1.15
 Release:	1
 License:	GPL v3+
 Group:		Applications/Archiving
 Source0:	http://download.savannah.gnu.org/releases/lzip/lunzip/%{name}-%{version}.tar.lz
-# Source0-md5:	9e67c3cc7ca71a11ea0b3ccdff737b14
+# Source0-md5:	5011d8ecafbc243bd48581cb2841bbea
 URL:		http://savannah.nongnu.org/projects/lzip/
 BuildRequires:	lzip
 BuildRequires:	tar >= 1:1.22
@@ -29,7 +29,13 @@ nowszymi wersjami.
 %setup -q
 
 %build
-%configure
+# not autoconf configure, imitates 2.50+ style invocation (exported variables don't work)
+./configure \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags}" \
+	CPPFLAGS="%{rpmcppflags}" \
+	LDFLAGS="%{rpmldflags}" \
+	--prefix=%{_prefix}
 %{__make}
 
 %install
